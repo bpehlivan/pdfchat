@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "pdfchat"
+version = "0.1.0"
+description = ""
+authors = ["burkay <bpehlivan235@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.0"
+sqlmodel = "^0.0.22"
+pydantic = "^2.9.2"
+asyncpg = "^0.29.0"
+uvicorn = "^0.31.1"
+pydantic-settings = "^2.5.2"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.35"}
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.9"
+ipdb = "^0.13.13"
+ipython = "^8.28.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

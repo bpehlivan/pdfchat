@@ -1,8 +1,11 @@
+import uuid
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, HTTPException, Depends
+from sqlmodel import Session
 
-from app.database import create_db_and_tables
+from app.database import create_db_and_tables, get_db_session
+from app.utils import save_upload_file
 
 
 @asynccontextmanager
@@ -20,3 +23,20 @@ app = FastAPI(lifespan=lifespan)
 @app.get("/hello")
 async def hello_world():
     return {"hello": "world"}
+
+
+@app.post("/pdf/upload")
+async def pdf_upload(
+    file: UploadFile,
+    db_session: Session = Depends(get_db_session),
+):
+    if file.content_type != "application/pdf":
+        raise HTTPException(
+            status_code=400,
+            detail="The uploaded file is not a PDF.",
+        )
+
+    file_uuid = str(uuid.uuid4())
+    await save_upload_file(file_name=file_uuid, upload_file=file, db_session=db_session)
+
+    return {"pdf_id": file_uuid}

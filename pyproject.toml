@@ -16,6 +16,7 @@ uvicorn = "^0.31.1"
 pydantic-settings = "^2.5.2"
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.35"}
 python-multipart = "^0.0.12"
+langchain = "^0.3.3"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.9"

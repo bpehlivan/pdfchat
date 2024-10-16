@@ -13,17 +13,16 @@ services:
       - "8000:8000"
     env_file:
       - .env
-      - .env.example
     volumes:
       - .:/app
     depends_on:
       - database
+      - qdrant
 
   database:
     image: postgres:16
     env_file:
       - .env
-      - .env.example
     ports:
       - "5432:5432"
     volumes:
@@ -41,6 +40,12 @@ services:
       - "5050:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+
+  qdrant:
+    container_name: "qdrant"
+    image: qdrant/qdrant
+    ports:
+      - "6333:6333"
 
 volumes:
   db_data:

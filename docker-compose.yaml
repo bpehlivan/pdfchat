@@ -34,8 +34,8 @@ services:
     image: dpage/pgadmin4
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@rssreader.com
-      PGADMIN_DEFAULT_PASSWORD: rssreader
+      PGADMIN_DEFAULT_EMAIL: admin@pdfchat.com
+      PGADMIN_DEFAULT_PASSWORD: pdfchat
     ports:
       - "5050:80"
     volumes:

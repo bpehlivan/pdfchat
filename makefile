@@ -1,5 +1,5 @@
 run:
-	docker-compose run --rm app uvicorn main:app --host 0.0.0.0 --port 8000 --reload --graceful-timeout 5
+	docker-compose run --rm --service-ports app uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 run-local:
 	uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 db:

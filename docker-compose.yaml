@@ -28,6 +28,8 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./init-db:/docker-entrypoint-initdb.d 
+    depends_on:
+      - qdrant
 
   pgadmin:
     container_name: "pgadmin"

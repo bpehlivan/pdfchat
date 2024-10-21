@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     postgres_port: int
     qdrant_host: str
     qdrant_port: str
-    GOOGLE_API_KEY: str
+    openai_api_key: str
     postgres_test_db: str = "test"
 
     class Config:

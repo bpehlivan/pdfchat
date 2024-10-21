@@ -7,8 +7,8 @@ from fastapi import UploadFile, HTTPException
 from langchain import hub
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.vectorstores import Qdrant
+from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_core.load import dumpd
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sqlmodel import Session
 
@@ -37,6 +37,7 @@ async def save_upload_file(
         chain_dict = dumpd(chain)
 
         db_file = PdfFile(
+            id=file_id,
             file_name=upload_file.filename,
             file_path=str(file_path),
             langchain=chain_dict,
@@ -59,16 +60,11 @@ def create_embeddings_for_text(text: str, collection_name: str):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunks = text_splitter.split_text(text)
 
-    embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001",
-        api_key=settings.GOOGLE_API_KEY,
+    embeddings = OpenAIEmbeddings(
+        openai_api_key=settings.openai_api_key,
+        model="text-embedding-ada-002",
     )
-    vectorstore = Qdrant.from_texts(
-        texts=chunks,
-        embedding=embeddings,
-        url=f"http://{settings.qdrant_host}:{settings.qdrant_port}",
-        collection_name=collection_name,
-    )
+    vectorstore = Qdrant.from_texts(chunks, embedding=embeddings, collection_name=collection_name)
 
     return vectorstore
 
